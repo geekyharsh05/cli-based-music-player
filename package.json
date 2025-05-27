@@ -1,0 +1,47 @@
+{
+  "name": "terminal-music-player",
+  "version": "1.0.0",
+  "description": "A terminal-based music player that streams from YouTube",
+  "main": "index.js",
+  "bin": {
+    "tmusic": "./bin/cli.js"
+  },
+  "scripts": {
+    "start": "node bin/cli.js",
+    "dev": "nodemon bin/cli.js",
+    "build": "pkg . --out-path ./dist",
+    "install-deps": "node scripts/install-deps.js"
+  },
+  "keywords": [
+    "music",
+    "terminal",
+    "cli",
+    "youtube",
+    "player"
+  ],
+  "type": "module",
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "^5.4.1",
+    "commander": "^11.1.0",
+    "inquirer": "^12.6.3",
+    "mpv": "^2.0.1",
+    "node-fetch": "^3.3.2",
+    "node-spotify-api": "^1.1.1",
+    "ora": "^7.0.1",
+    "play-sound": "^1.1.6",
+    "which": "^4.0.0",
+    "ytmusic": "^0.0.9",
+    "ytmusic-api": "^5.3.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1",
+    "pkg": "^5.8.1"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "preferGlobal": true,
+  "packageManager": "pnpm@9.15.1+sha512.1acb565e6193efbebda772702950469150cf12bcc764262e7587e71d19dc98a423dff9536e57ea44c49bdf790ff694e83c27be5faa23d67e0c033b583be4bfcf"
+}
