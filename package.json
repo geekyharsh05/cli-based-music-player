@@ -24,11 +24,11 @@
     "streaming"
   ],
   "type": "module",
-  "author": "Your Name <your.email@example.com>",
+  "author": "Aakash Subedi",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/yourusername/terminal-music-player.git"
+    "url": "https://github.com/subediaakash/cli-based-music-player.git"
   },
   "dependencies": {
     "chalk": "^5.4.1",
