@@ -2,7 +2,7 @@
   "name": "terminal-music-player",
   "version": "1.0.0",
   "description": "A terminal-based music player that streams from YouTube",
-  "main": "index.js",
+  "main": "bin/cli.js",
   "bin": {
     "tmusic": "./bin/cli.js"
   },
@@ -10,38 +10,43 @@
     "start": "node bin/cli.js",
     "dev": "nodemon bin/cli.js",
     "build": "pkg . --out-path ./dist",
-    "install-deps": "node scripts/install-deps.js"
+    "audit-fix": "npm audit fix",
+    "security-check": "npm audit --audit-level moderate"
   },
   "keywords": [
     "music",
     "terminal",
     "cli",
     "youtube",
-    "player"
+    "player",
+    "ytmusic",
+    "audio",
+    "streaming"
   ],
   "type": "module",
-  "author": "Your Name",
+  "author": "Your Name <your.email@example.com>",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/terminal-music-player.git"
+  },
   "dependencies": {
     "chalk": "^5.4.1",
-    "commander": "^11.1.0",
-    "inquirer": "^12.6.3",
-    "mpv": "^2.0.1",
-    "node-fetch": "^3.3.2",
-    "node-spotify-api": "^1.1.1",
-    "ora": "^7.0.1",
-    "play-sound": "^1.1.6",
-    "which": "^4.0.0",
-    "ytmusic": "^0.0.9",
+    "inquirer": "^10.2.2",
+    "ora": "^8.1.1",
+    "terminal-music-player": "^1.0.0",
     "ytmusic-api": "^5.3.0"
   },
   "devDependencies": {
-    "nodemon": "^3.0.1",
-    "pkg": "^5.8.1"
+    "nodemon": "^3.1.7"
   },
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=18.0.0"
   },
   "preferGlobal": true,
-  "packageManager": "pnpm@9.15.1+sha512.1acb565e6193efbebda772702950469150cf12bcc764262e7587e71d19dc98a423dff9536e57ea44c49bdf790ff694e83c27be5faa23d67e0c033b583be4bfcf"
+  "overrides": {
+    "semver": "^7.6.3",
+    "follow-redirects": "^1.15.6",
+    "axios": "^1.7.7"
+  }
 }
