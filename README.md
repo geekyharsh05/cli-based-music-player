@@ -15,6 +15,7 @@ A sleek command-line music player that streams music directly from YouTube Music
 - 🎨 **Beautiful Interface**: Colorful and intuitive terminal interface
 - 🔄 **Loop Support**: Seamlessly loops through your playlist
 - 📊 **Track Information**: Display current track details and duration
+- 🚀 **Auto MPV Installation**: Automatically installs MPV media player during setup
 
 ## 🎬 Demo
 
@@ -34,17 +35,73 @@ A sleek command-line music player that streams music directly from YouTube Music
 
 ## 📋 Prerequisites
 
-### 🎵 MPV Media Player (Required)
+### 📦 Node.js
 
-This application requires MPV media player to be installed on your system. MPV handles the audio playback.
+Make sure you have Node.js version 18.0.0 or higher installed:
+
+```bash
+node --version
+```
+
+If you need to install Node.js, visit [nodejs.org](https://nodejs.org/)
+
+### 🎵 MPV Media Player (Auto-Installed)
+
+This application requires MPV media player for audio playback. **MPV will be automatically installed during package installation** on most systems.
+
+**Supported automatic installation methods:**
+
+- **Linux**: apt-get, dnf, yum, pacman
+- **macOS**: Homebrew
+- **Windows**: Chocolatey, Scoop, Winget
+
+If automatic installation fails, you can:
+
+1. Run the manual installer: `npm run install-mpv`
+2. Install MPV manually (see manual installation section below)
+
+## 🚀 Installation
+
+### Global Installation (Recommended)
+
+```bash
+npm install -g terminal-music-player
+```
+
+During installation, the setup will:
+
+1. ✅ Check system requirements
+2. 🔍 Check if MPV is already installed
+3. 📦 Automatically install MPV if needed
+4. ✅ Verify installation
+
+### Local Installation
+
+```bash
+npm install terminal-music-player
+```
+
+### Manual MPV Installation (if needed)
+
+If automatic installation fails, you can install MPV manually:
+
+```bash
+# If installed globally
+npm run install-mpv
+
+# If installed locally
+npx terminal-music-player install-mpv
+```
 
 #### 🐧 Linux (Ubuntu/Debian)
+
 ```bash
 sudo apt update
 sudo apt install mpv
 ```
 
 #### 🐧 Linux (Fedora/RHEL/CentOS)
+
 ```bash
 sudo dnf install mpv
 # or for older versions:
@@ -52,17 +109,21 @@ sudo yum install mpv
 ```
 
 #### 🐧 Linux (Arch Linux)
+
 ```bash
 sudo pacman -S mpv
 ```
 
 #### 🍎 macOS
+
 Using Homebrew (recommended):
+
 ```bash
 brew install mpv
 ```
 
 Using MacPorts:
+
 ```bash
 sudo port install mpv
 ```
@@ -70,49 +131,41 @@ sudo port install mpv
 #### 🪟 Windows
 
 **Option 1: Using Chocolatey (Recommended)**
+
 ```powershell
 choco install mpv
 ```
 
 **Option 2: Using Scoop**
+
 ```powershell
 scoop install mpv
 ```
 
-**Option 3: Manual Installation**
+**Option 3: Using Winget**
+
+```powershell
+winget install mpv-player.mpv
+```
+
+**Option 4: Manual Installation**
+
 1. Download MPV from [https://mpv.io/installation/](https://mpv.io/installation/)
 2. Extract the archive to a folder (e.g., `C:\mpv`)
 3. Add the MPV folder to your system PATH environment variable
 
-### 📦 Node.js
-Make sure you have Node.js version 18.0.0 or higher installed:
-```bash
-node --version
-```
-
-If you need to install Node.js, visit [nodejs.org](https://nodejs.org/)
-
-## 🚀 Installation
-
-### Global Installation (Recommended)
-```bash
-npm install -g terminal-music-player
-```
-
-### Local Installation
-```bash
-npm install terminal-music-player
-```
-
 ## 🎯 Usage
 
 ### Global Installation
+
 Simply run:
+
 ```bash
 tmusic
 ```
 
 ### Local Installation
+
 ```bash
 npx terminal-music-player
 ```
@@ -130,6 +183,7 @@ npx terminal-music-player
    - **Exit**: Quit the application
 
 ### 🎵 Example Workflow
+
 ```bash
 $ tmusic
 
@@ -159,40 +213,54 @@ Duration: 5:55
 ## 🔧 Troubleshooting
 
 ### MPV Not Found Error
+
 If you get an "MPV not found" error:
 
-1. **Verify MPV installation**:
+1. **Try automatic installation**:
+
+   - Restart the music player: `tmusic`
+   - It will prompt you to install MPV automatically
+   - Or run manual installer: `npm run install-mpv`
+
+2. **Verify MPV installation**:
+
    ```bash
    mpv --version
    ```
 
-2. **Check PATH**: Make sure MPV is in your system PATH
+3. **Check PATH**: Make sure MPV is in your system PATH
+
    - Linux/macOS: Add MPV location to `~/.bashrc` or `~/.zshrc`
    - Windows: Add MPV folder to Environment Variables PATH
 
-3. **Reinstall MPV**: Follow the installation instructions above
+4. **Manual installation**: Follow the manual installation instructions above
+
+### Installation Issues
+
+- **Permission denied**: Run with appropriate permissions for your package manager
+- **Package manager not found**: Install a supported package manager first
+- **Network issues**: Ensure stable internet connection during installation
+- **Antivirus blocking**: Some antivirus software may block automatic installations
 
 ### Network Issues
+
 - Ensure you have a stable internet connection
 - Some regions may have restrictions on YouTube access
 - Try using a VPN if you encounter access issues
 
 ### Audio Issues
+
 - Check your system's audio settings
 - Ensure your audio drivers are up to date
 - Test MPV directly: `mpv https://www.youtube.com/watch?v=dQw4w9WgXcQ`
 
 ### Permission Issues (Linux/macOS)
+
 If you get permission errors:
+
 ```bash
 sudo chown -R $(whoami) ~/.npm
 ```
-
-
-
-
-
-
 
 ## ⚠️ Legal Disclaimer
 
@@ -220,6 +288,6 @@ This tool is for educational and personal use only. Please respect YouTube's Ter
 
 ---
 
-Made with ❤️  for music lovers who live in the terminal.
+Made with ❤️ for music lovers who live in the terminal.
 
 **Happy Listening! 🎧**

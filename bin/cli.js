@@ -4,6 +4,8 @@ import YTMusic from "ytmusic-api";
 import { spawn } from "child_process";
 import inquirer from "inquirer";
 import chalk from "chalk";
+import which from "which";
+import MPVInstaller from "../scripts/install-mpv.js";
 
 const ytm = new YTMusic();
 
@@ -14,6 +16,48 @@ let currentTrackIndex = 0;
 let isPlaying = false;
 let autoPlay = true;
 let isTransitioning = false;
+
+async function checkMPVAvailability() {
+  try {
+    await which('mpv');
+    return true;
+  } catch (error) {
+    return false;
+  }
+}
+
+async function handleMPVInstallation() {
+  const isMPVAvailable = await checkMPVAvailability();
+  
+  if (!isMPVAvailable) {
+    console.log(chalk.red.bold('⚠️  MPV Media Player not found!'));
+    console.log(chalk.yellow('MPV is required for audio playback in the terminal music player.\n'));
+    
+    const { shouldInstall } = await inquirer.prompt({
+      type: 'confirm',
+      name: 'shouldInstall',
+      message: 'Would you like to install MPV automatically now?',
+      default: true
+    });
+
+    if (shouldInstall) {
+      console.log(''); // Empty line for spacing
+      const installer = new MPVInstaller();
+      const success = await installer.install();
+      
+      if (!success) {
+        console.log(chalk.red('\nMPV installation failed. Please install MPV manually and restart the application.'));
+        process.exit(1);
+      }
+      
+      console.log(''); // Empty line for spacing
+    } else {
+      console.log(chalk.yellow('\nPlease install MPV manually and restart the application.'));
+      console.log(chalk.gray('Visit https://mpv.io/installation/ for installation instructions.'));
+      process.exit(1);
+    }
+  }
+}
 
 async function initialize() {
   try {
@@ -122,6 +166,12 @@ function playTrack(trackId) {
 
   mpvProcess.on("error", (error) => {
     console.error(chalk.red("MPV Error:"), error.message);
+    
+    if (error.code === 'ENOENT') {
+      console.error(chalk.red("MPV not found! It may have been uninstalled or removed from PATH."));
+      console.log(chalk.yellow("Please restart the application to reinstall MPV, or install it manually."));
+    }
+    
     isPlaying = false;
     isTransitioning = false;
 
@@ -341,6 +391,7 @@ process.on("exit", (code) => {
 });
 
 (async () => {
+  await handleMPVInstallation();
   await initialize();
   console.log(chalk.blue.bold("\nCLI Music Player\n"));
   await mainMenu();
