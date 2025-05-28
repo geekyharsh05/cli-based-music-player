@@ -5,20 +5,16 @@ import { spawn } from "child_process";
 import inquirer from "inquirer";
 import chalk from "chalk";
 
-// Initialize YTMusic API
 const ytm = new YTMusic();
 
-// MPV player instance
 let mpvProcess = null;
 
-// Current playlist
 let currentPlaylist = [];
 let currentTrackIndex = 0;
 let isPlaying = false;
-let autoPlay = true; // Flag to control auto-play
-let isTransitioning = false; // Prevent multiple simultaneous transitions
+let autoPlay = true;
+let isTransitioning = false;
 
-// Initialize the YTMusic API
 async function initialize() {
   try {
     await ytm.initialize();
@@ -29,7 +25,6 @@ async function initialize() {
   }
 }
 
-// Search for tracks
 async function searchTracks(query) {
   try {
     const results = await ytm.search(query);
@@ -55,16 +50,13 @@ function formatDuration(seconds) {
   return `${mins}:${secs.toString().padStart(2, "0")}`;
 }
 
-// Enhanced cleanup function
 function cleanup() {
   console.log(chalk.yellow("\nCleaning up..."));
 
   if (mpvProcess && !mpvProcess.killed) {
     try {
-      // First try SIGTERM for graceful shutdown
       mpvProcess.kill("SIGTERM");
 
-      // If the process doesn't exit within 2 seconds, force kill it
       setTimeout(() => {
         if (mpvProcess && !mpvProcess.killed) {
           console.log(chalk.red("Force killing MPV process..."));
@@ -73,7 +65,6 @@ function cleanup() {
       }, 2000);
     } catch (error) {
       console.error(chalk.red("Error stopping MPV:"), error.message);
-      // Try force kill as fallback
       try {
         mpvProcess.kill("SIGKILL");
       } catch (killError) {
@@ -88,17 +79,14 @@ function cleanup() {
   isTransitioning = false;
 }
 
-// Properly stop the current track
 function stopTrack() {
   if (mpvProcess) {
-    autoPlay = false; // Prevent auto-play when manually stopping
+    autoPlay = false;
     cleanup();
   }
 }
 
-// Play a track by YouTube ID
 function playTrack(trackId) {
-  // Prevent multiple simultaneous plays
   if (isTransitioning) {
     console.log(chalk.yellow("Track transition in progress, please wait..."));
     return;
@@ -106,7 +94,6 @@ function playTrack(trackId) {
 
   isTransitioning = true;
 
-  // Stop current track if playing
   if (mpvProcess) {
     mpvProcess.kill("SIGTERM");
     mpvProcess = null;
@@ -131,15 +118,13 @@ function playTrack(trackId) {
   ]);
 
   isPlaying = true;
-  autoPlay = true; // Enable auto-play for natural playback
+  autoPlay = true;
 
-  // Add error handling
   mpvProcess.on("error", (error) => {
     console.error(chalk.red("MPV Error:"), error.message);
     isPlaying = false;
     isTransitioning = false;
 
-    // Try next track if auto-play is enabled and there are more tracks
     if (autoPlay && currentPlaylist.length > 1) {
       setTimeout(() => {
         playNext();
@@ -157,21 +142,18 @@ function playTrack(trackId) {
       console.log(chalk.red(`\nTrack stopped with code: ${code}`));
     }
 
-    // Only auto-play next track if it finished naturally and auto-play is enabled
     if (autoPlay && code === 0 && currentPlaylist.length > 1) {
       setTimeout(() => {
         playNext();
-      }, 500); // Small delay to prevent rapid cycling
+      }, 500);
     }
   });
 
-  // Clear transition flag after a short delay
   setTimeout(() => {
     isTransitioning = false;
   }, 1000);
 }
 
-// Play next track in playlist
 function playNext() {
   if (currentPlaylist.length === 0) {
     console.log(chalk.yellow("Playlist is empty"));
@@ -189,7 +171,6 @@ function playNext() {
     currentTrackIndex = 0;
   }
 
-  // Prevent infinite loops by checking if we're cycling back to the same problematic track
   if (currentTrackIndex === oldIndex) {
     console.log(chalk.yellow("Reached end of playlist"));
     return;
@@ -198,7 +179,6 @@ function playNext() {
   playTrack(currentPlaylist[currentTrackIndex].id);
 }
 
-// Play previous track in playlist
 function playPrevious() {
   if (currentPlaylist.length === 0) {
     console.log(chalk.yellow("Playlist is empty"));
@@ -213,7 +193,6 @@ function playPrevious() {
   playTrack(currentPlaylist[currentTrackIndex].id);
 }
 
-// Display current playlist
 function displayPlaylist() {
   if (currentPlaylist.length === 0) {
     console.log(chalk.yellow("\nPlaylist is empty"));
@@ -232,7 +211,6 @@ function displayPlaylist() {
   });
 }
 
-// Display now playing information
 function nowPlaying() {
   if (!isPlaying || currentPlaylist.length === 0) {
     console.log(chalk.yellow("\nNo track is currently playing"));
@@ -246,7 +224,6 @@ function nowPlaying() {
   console.log(chalk.white(`Duration: ${track.duration}`));
 }
 
-// Main menu
 async function mainMenu() {
   while (true) {
     const { choice } = await inquirer.prompt({
