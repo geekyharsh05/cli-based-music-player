@@ -188,24 +188,7 @@ If you get permission errors:
 sudo chown -R $(whoami) ~/.npm
 ```
 
-## 🛠️ Development
 
-### Clone and Setup
-```bash
-git clone https://github.com/yourusername/terminal-music-player.git
-cd terminal-music-player
-npm install
-```
-
-### Run in Development Mode
-```bash
-npm run dev
-```
-
-### Build
-```bash
-npm run build
-```
 
 
 
